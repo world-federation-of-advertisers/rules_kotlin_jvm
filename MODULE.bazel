@@ -1,0 +1,4 @@
+module(
+    name = "rules_kotlin_jvm",
+    repo_name = "wfa_rules_kotlin_jvm",
+)
