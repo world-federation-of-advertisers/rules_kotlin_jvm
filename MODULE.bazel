@@ -2,3 +2,21 @@ module(
     name = "rules_kotlin_jvm",
     repo_name = "wfa_rules_kotlin_jvm",
 )
+
+bazel_dep(name = "rules_kotlin", version = "1.9.0")
+bazel_dep(name = "rules_jvm_external", version = "5.3")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+KOTLIN_RELEASE_VERSION = "1.8.22"
+
+maven.install(
+    name = "rules_kotlin_jvm_maven",
+    artifacts = [
+        "org.jetbrains.kotlin:kotlin-stdlib:" + KOTLIN_RELEASE_VERSION,
+        "org.jetbrains.kotlin:kotlin-stdlib-common:" + KOTLIN_RELEASE_VERSION,
+        "org.jetbrains.kotlin:kotlin-reflect:" + KOTLIN_RELEASE_VERSION,
+        "org.jetbrains.kotlin:kotlin-test:" + KOTLIN_RELEASE_VERSION,
+    ],
+)
+use_repo(maven, "rules_kotlin_jvm_maven")
