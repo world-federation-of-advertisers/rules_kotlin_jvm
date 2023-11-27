@@ -1,0 +1,6 @@
+package(default_visibility = ["//visibility:public"])
+
+alias(
+    name = "reflect",
+    actual = "@rules_kotlin_jvm_maven//:org_jetbrains_kotlin_kotlin_reflect",
+)
