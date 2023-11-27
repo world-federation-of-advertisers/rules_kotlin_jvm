@@ -16,6 +16,7 @@
 Provides kt_jvm_proto_library to generate Kotlin protos.
 """
 
+load("@rules_java//java:defs.bzl", "java_proto_library")
 load("@rules_proto//proto:defs.bzl", "ProtoInfo")
 load("//kotlin/internal:library.bzl", "kt_jvm_library")
 
@@ -199,33 +200,36 @@ def kt_jvm_proto_library(name, srcs = None, deps = None, **kwargs):
 
     Args:
       name: A name for the target
-      srcs: Exactly one proto_library target to generate Kotlin APIs for
-      deps: Exactly one java_proto_library target for srcs[0]
+      deps: Exactly one proto_library target to generate Kotlin APIs for
       **kwargs: other args to pass to the ultimate kt_jvm_library target
     """
-    srcs = srcs or []
     deps = deps or []
-
-    if len(srcs) != 1:
-        fail("Expected exactly one src", "srcs")
 
     if len(deps) != 1:
         fail("Expected exactly one dep", "deps")
+
+    java_name = name + "_DO_NOT_DEPEND_java_proto"
+    java_proto_library(
+        name = java_name,
+        visibility = ["//visibility:private"],
+        deps = deps,
+    )
 
     generated_kt_name = name + "_DO_NOT_DEPEND_generated_kt"
     generated_srcjar = generated_kt_name + ".srcjar"
     _kt_jvm_proto_library_helper(
         name = generated_kt_name,
-        proto_dep = srcs[0],
+        proto_dep = deps[0],
         srcjar = generated_srcjar,
         visibility = ["//visibility:private"],
     )
 
+    kt_jvm_deps = _KT_JVM_PROTO_DEPS + [java_name]
     kt_jvm_library(
         name = name,
         srcs = [generated_srcjar],
-        deps = deps + _KT_JVM_PROTO_DEPS,
-        exports = deps + _KT_JVM_PROTO_DEPS,
+        deps = kt_jvm_deps,
+        exports = kt_jvm_deps,
         kotlinc_opts = Label(":proto_gen_kt_options"),
         **kwargs
     )

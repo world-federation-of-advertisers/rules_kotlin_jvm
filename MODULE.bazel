@@ -3,6 +3,7 @@ module(
     repo_name = "wfa_rules_kotlin_jvm",
 )
 
+bazel_dep(name = "rules_java", version = "6.5.2")
 bazel_dep(name = "rules_kotlin", version = "1.9.0")
 bazel_dep(name = "rules_jvm_external", version = "5.3")
 bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
