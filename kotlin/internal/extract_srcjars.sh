@@ -1,4 +1,5 @@
-# Copyright 2023 The Cross-Media Measurement Authors
+#!/usr/bin/env bash
+# Copyright 2021 The Cross-Media Measurement Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,16 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Rules and macros for Kotlin JVM."""
 
-load(
-    "//kotlin/internal:library.bzl",
-    _kt_jvm_library = "kt_jvm_library",
-)
-load(
-    "//kotlin/internal:proto_library.bzl",
-    _kt_jvm_proto_library = "kt_jvm_proto_library",
-)
+# Extracts multiple srcjars to a single output directory.
 
-kt_jvm_library = _kt_jvm_library
-kt_jvm_proto_library = _kt_jvm_proto_library
+readonly zipper="$1"
+readonly output_dir="$2"
+shift 2
+
+mkdir -p "${output_dir}"
+for input_jar in "$@"; do
+  $zipper x "${input_jar}" -d "${output_dir}"
+done
