@@ -5,6 +5,8 @@ module(
 
 bazel_dep(name = "rules_kotlin", version = "1.9.0")
 bazel_dep(name = "rules_jvm_external", version = "5.3")
+bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
+bazel_dep(name = "protobuf", version = "21.7")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
@@ -17,6 +19,7 @@ maven.install(
         "org.jetbrains.kotlin:kotlin-stdlib-common:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-reflect:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-test:" + KOTLIN_RELEASE_VERSION,
+        "com.google.protobuf:protobuf-kotlin:3.21.12",
     ],
 )
 use_repo(maven, "rules_kotlin_jvm_maven")
