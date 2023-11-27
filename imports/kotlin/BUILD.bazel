@@ -1,0 +1,6 @@
+package(default_visibility = ["//visibility:public"])
+
+alias(
+    name = "stdlib",
+    actual = "@rules_kotlin_jvm_maven//:org_jetbrains_kotlin_kotlin_stdlib",
+)

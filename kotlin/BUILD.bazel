@@ -1,0 +1,9 @@
+load("@rules_kotlin//kotlin:core.bzl", "kt_kotlinc_options")
+
+package(default_visibility = ["//visibility:public"])
+
+kt_kotlinc_options(
+    name = "default_opts",
+    include_stdlibs = "none",
+    x_optin = ["kotlin.RequiresOptIn"],
+)
