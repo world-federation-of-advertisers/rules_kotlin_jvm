@@ -4,6 +4,10 @@ module(
 )
 
 bazel_dep(
+    name = "bazel_skylib",
+    version = "1.5.0",
+)
+bazel_dep(
     name = "rules_proto",
     version = "5.3.0-21.7",
 )
@@ -20,10 +24,6 @@ bazel_dep(
     version = "5.3",
 )
 bazel_dep(
-    name = "rules_cc",
-    version = "0.0.9",
-)  # For grpc-java.
-bazel_dep(
     name = "protobuf",
     version = "21.7",
     repo_name = "com_google_protobuf",
@@ -33,41 +33,9 @@ maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 KOTLIN_RELEASE_VERSION = "1.8.22"
 
-GRPC_KOTLIN_VERSION = "1.4.0"
+GRPC_JAVA_VERSION = "1.59.1"
 
-GRPC_JAVA_VERSION = "1.52.1"
-
-GRPC_JAVA_DEP_ARTIFACTS = [
-    "com.google.android:annotations:4.1.1.4",
-    "com.google.api.grpc:proto-google-common-protos:2.9.0",
-    "com.google.auth:google-auth-library-credentials:0.22.0",
-    "com.google.auth:google-auth-library-oauth2-http:0.22.0",
-    "com.google.auto.value:auto-value-annotations:1.9",
-    "com.google.auto.value:auto-value:1.9",
-    "com.google.guava:failureaccess:1.0.1",
-    "com.google.re2j:re2j:1.6",
-    "com.squareup.okhttp:okhttp:2.7.5",
-    "com.squareup.okio:okio:1.17.5",
-    "io.netty:netty-buffer:4.1.79.Final",
-    "io.netty:netty-codec-http2:4.1.79.Final",
-    "io.netty:netty-codec-http:4.1.79.Final",
-    "io.netty:netty-codec-socks:4.1.79.Final",
-    "io.netty:netty-codec:4.1.79.Final",
-    "io.netty:netty-common:4.1.79.Final",
-    "io.netty:netty-handler-proxy:4.1.79.Final",
-    "io.netty:netty-handler:4.1.79.Final",
-    "io.netty:netty-resolver:4.1.79.Final",
-    "io.netty:netty-tcnative-boringssl-static:2.0.54.Final",
-    "io.netty:netty-tcnative-classes:2.0.54.Final",
-    "io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.79.Final",
-    "io.netty:netty-transport-native-unix-common:4.1.79.Final",
-    "io.netty:netty-transport:4.1.79.Final",
-    "io.opencensus:opencensus-api:0.24.0",
-    "io.opencensus:opencensus-contrib-grpc-metrics:0.24.0",
-    "io.perfmark:perfmark-api:0.25.0",
-    "org.apache.tomcat:annotations-api:6.0.53",
-    "org.codehaus.mojo:animal-sniffer-annotations:1.21",
-]
+GRPC_KOTLIN_VERSION = "1.4.1"
 
 MAVEN_REPO_NAME = "rules_kotlin_jvm_maven"
 
@@ -85,26 +53,17 @@ maven.install(
         "org.jetbrains.kotlin:kotlin-stdlib-common:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-reflect:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-test:" + KOTLIN_RELEASE_VERSION,
+        "io.grpc:grpc-protobuf:" + GRPC_JAVA_VERSION,
+        "io.grpc:grpc-stub:" + GRPC_JAVA_VERSION,
         "io.grpc:grpc-kotlin-stub:" + GRPC_KOTLIN_VERSION,
-        "io.grpc:protoc-gen-grpc-java:" + GRPC_JAVA_VERSION,
         "com.google.protobuf:protobuf-kotlin:3.21.12",
-    ] + GRPC_JAVA_DEP_ARTIFACTS,
-    generate_compat_repositories = True,
+    ],
 )
 use_repo(maven, MAVEN_REPO_NAME)
 
-# Compat repositories for grpc-java.
-use_repo(maven, "com_google_code_findbugs_jsr305")
-use_repo(maven, "com_google_guava_guava")
-use_repo(maven, "com_google_errorprone_error_prone_annotations")
-use_repo(maven, "org_apache_tomcat_annotations_api")
-use_repo(maven, "com_google_api_grpc_proto_google_common_protos")
-use_repo(maven, "com_google_j2objc_j2objc_annotations")
-use_repo(maven, "com_google_guava_failureaccess")
-
 non_module_deps = use_extension("//:non_module_deps.bzl", "non_module_deps")
-rules_kotlin_jvm_dependencies.grpc_java_version(
-    sha256 = "6bbe6dca6e60bb892fec8000ab2a200c474c4d9700f34e3fa205c84aaeaf33f7",
+non_module_deps.grpc_java_plugin_version(
+    sha256 = "d0345a5508959633f086f42f55782b64913aea890dccaa35ffbf7fe9da0f4463",
     version = GRPC_JAVA_VERSION,
 )
-use_repo(rules_kotlin_jvm_dependencies, "io_grpc_grpc_java")
+use_repo(non_module_deps, "protoc_gen_grpc_java")

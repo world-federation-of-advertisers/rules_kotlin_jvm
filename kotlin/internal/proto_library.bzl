@@ -16,7 +16,6 @@
 Provides kt_jvm_proto_library to generate Kotlin protos.
 """
 
-load("@io_grpc_grpc_java//:java_grpc_library.bzl", "java_grpc_library")
 load("@rules_java//java:defs.bzl", "java_proto_library")
 load("@rules_proto//proto:defs.bzl", "ProtoInfo")
 load("//kotlin/internal:library.bzl", "kt_jvm_library")
@@ -28,7 +27,7 @@ KtProtoLibInfo = provider(
     },
 )
 
-def get_real_short_path(file):
+def _get_real_short_path(file):
     """Returns the correct short path for a `File`.
 
     Args:
@@ -58,8 +57,8 @@ def get_real_short_path(file):
 def _generate_proto_extensions(ctx, proto_lib, output_dir):
     """Generates code for Kotlin proto extensions."""
     proto_info = proto_lib[ProtoInfo]
-    transitive_descriptor_set = depset(transitive = [proto_info.transitive_descriptor_sets])
-    proto_sources = [get_real_short_path(file) for file in proto_info.direct_sources]
+    srcs = proto_info.direct_sources
+    transitive_descriptor_set = proto_info.transitive_descriptor_sets
 
     args = ctx.actions.args()
     args.set_param_file_format("multiline")
@@ -70,15 +69,26 @@ def _generate_proto_extensions(ctx, proto_lib, output_dir):
         join_with = ctx.configuration.host_path_separator,
         format_joined = "--descriptor_set_in=%s",
     )
-    args.add_all(proto_sources)
+    args.add_all(srcs, map_each = _get_real_short_path)
+    if ctx.attr.has_services:
+        # TODO(@SanjayVas): Compile generated Java code, collecting JavaInfo.
+        args.add(
+            ctx.executable._grpc_java_plugin,
+            format = "--plugin=protoc-gen-grpc-java=%s",
+        )
+        args.add("--grpc-java_out=" + output_dir.path)
 
     ctx.actions.run(
-        inputs = depset(transitive = [transitive_descriptor_set]),
+        inputs = depset(
+            srcs + [ctx.executable._grpc_java_plugin],
+            transitive = [transitive_descriptor_set],
+        ),
         outputs = [output_dir],
         executable = ctx.executable._protoc,
         arguments = [args],
         mnemonic = "KtProtoc",
         progress_message = "Generating Kotlin protobuf extensions for " + ctx.label.name,
+        toolchain = None,
     )
 
 def _generate_grpc_extensions(ctx, proto_lib, output_dir):
@@ -100,6 +110,7 @@ def _generate_grpc_extensions(ctx, proto_lib, output_dir):
         executable = ctx.executable._grpc_generator,
         mnemonic = "KtGrpcGenerator",
         progress_message = "Generating Kotlin gRPC extensions for " + ctx.label.name,
+        toolchain = None,
     )
 
 def _create_srcjar(ctx, input_dir, output_jar):
@@ -115,6 +126,7 @@ def _create_srcjar(ctx, input_dir, output_jar):
         arguments = [zipper_args],
         mnemonic = "KtProtoSrcJar",
         progress_message = "Generating Kotlin proto srcjar for " + ctx.label.name,
+        toolchain = None,
     )
 
 def _merge_srcjars(ctx, input_jars, output_jar):
@@ -134,6 +146,7 @@ def _merge_srcjars(ctx, input_jars, output_jar):
         tools = [ctx.executable._zipper],
         arguments = [merge_args],
         mnemonic = "KtProtoExtractSrcJars",
+        toolchain = None,
     )
 
     _create_srcjar(ctx, tmp_dir, output_jar)
@@ -190,6 +203,11 @@ _kt_jvm_proto_aspect = aspect(
             cfg = "exec",
             executable = True,
         ),
+        "_grpc_java_plugin": attr.label(
+            default = Label(":protoc_gen_grpc_java"),
+            cfg = "exec",
+            executable = True,
+        ),
     },
     implementation = _kt_jvm_proto_aspect_impl,
     attr_aspects = ["deps"],
@@ -238,6 +256,10 @@ _kt_jvm_proto_library_helper = rule(
 _KT_JVM_PROTO_DEPS = [
     Label("//imports/com/google/protobuf:kotlin"),
 ]
+_KT_JVM_GRPC_DEPS = [
+    Label("//imports/io/gprc/protobuf"),
+    Label("//imports/io/gprc/kotlin:stub"),
+]
 
 def kt_jvm_proto_library(
         name,
@@ -272,16 +294,7 @@ def kt_jvm_proto_library(
     kt_jvm_deps.append(java_label)
 
     if has_services:
-        java_grpc_name = name + "_DO_NOT_DEPEND_java_grpc"
-        java_grpc_label = ":" + java_grpc_name
-        java_grpc_library(
-            name = java_grpc_name,
-            srcs = deps,
-            deps = [java_label],
-            visibility = ["//visibility:private"],
-        )
-        kt_jvm_deps.append(java_grpc_label)
-        kt_jvm_deps.append(Label("//imports/io/gprc/kotlin:stub"))
+        kt_jvm_deps.extend(_KT_JVM_GRPC_DEPS)
 
     generated_kt_name = name + "_DO_NOT_DEPEND_generated_kt"
     generated_srcjar = generated_kt_name + ".srcjar"
