@@ -20,8 +20,10 @@ load(
 )
 load(
     "//kotlin/internal:proto_library.bzl",
+    _kt_jvm_grpc_proto_library = "kt_jvm_grpc_proto_library",
     _kt_jvm_proto_library = "kt_jvm_proto_library",
 )
 
 kt_jvm_library = _kt_jvm_library
 kt_jvm_proto_library = _kt_jvm_proto_library
+kt_jvm_grpc_proto_library = _kt_jvm_grpc_proto_library
