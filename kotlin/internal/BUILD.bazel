@@ -1,3 +1,4 @@
+load("@bazel_skylib//rules:native_binary.bzl", "native_binary")
 load("@rules_java//java:defs.bzl", "java_binary")
 load("@rules_kotlin//kotlin:core.bzl", "kt_kotlinc_options")
 
@@ -18,4 +19,10 @@ java_binary(
     name = "KotlinGrpcGenerator",
     main_class = "io.grpc.kotlin.generator.GeneratorRunner",
     runtime_deps = ["//imports/io/gprc:protoc_gen_grpc_kotlin_jdk8"],
+)
+
+native_binary(
+    name = "protoc_gen_grpc_java",
+    src = "@protoc_gen_grpc_java//file",
+    out = "protoc-gen-grpc-java",
 )

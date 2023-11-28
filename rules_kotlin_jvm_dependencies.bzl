@@ -16,74 +16,36 @@
 
 load(
     "@bazel_tools//tools/build_defs/repo:http.bzl",
-    "http_archive",
+    "http_file",
 )
 
-_archive_version = tag_class(attrs = {
-    "version": attr.string(),
-    "sha256": attr.string(),
-})
-
-RepoArchiveInfo = provider(
-    "Repository archive",
-    fields = {
-        "name": "Repository name",
-        "url_templates": "List of templates of URLs that can be filled in with a version",
-        "prefix_template": "Template of prefix to strip from archive",
+_FileVersion = tag_class(
+    attrs = {
+        "version": attr.string(),
+        "sha256": attr.string(),
     },
-)
-
-ArchiveVersionInfo = provider(
-    "Archive version",
-    fields = {
-        "version": "Version of the archive",
-        "sha256": "SHA-256 sum of the archive",
-    },
-)
-
-def _format_url_templates(repo_archive, version):
-    """Returns URL templates with version substituted."""
-    return [
-        template.format(version = version)
-        for template in repo_archive.url_templates
-    ]
-
-def _format_prefix(repo_archive, version):
-    if not hasattr(repo_archive, "prefix_template"):
-        return None
-    return repo_archive.prefix_template.format(
-        version = version,
-    )
-
-def _versioned_http_archive(repo_archive, archive_version):
-    http_archive(
-        name = repo_archive.name,
-        sha256 = archive_version.sha256,
-        strip_prefix = _format_prefix(repo_archive, archive_version.version),
-        urls = _format_url_templates(repo_archive, archive_version.version),
-    )
-
-_GRPC_JAVA = RepoArchiveInfo(
-    name = "io_grpc_grpc_java",
-    url_templates = [
-        "https://github.com/grpc/grpc-java/archive/refs/tags/v{version}.tar.gz",
-    ],
-    prefix_template = "grpc-java-{version}",
 )
 
 def _rules_kotlin_jvm_dependencies_impl(mctx):
-    grpc_java_version = None
+    grpc_java_plugin_version = None
     for mod in mctx.modules:
-        for archive_version in mod.tags.grpc_java_version:
-            if grpc_java_version:
-                fail("Only one grpc-java version is supported")
-            grpc_java_version = ArchiveVersionInfo(version = archive_version.version, sha256 = archive_version.sha256)
+        for file_version in mod.tags.grpc_java_plugin_version:
+            if grpc_java_plugin_version:
+                fail("Only one grpc-java protoc plugin version is supported")
+            grpc_java_plugin_version = file_version
 
-    _versioned_http_archive(_GRPC_JAVA, grpc_java_version)
+    http_file(
+        name = "protoc_gen_grpc_java",
+        url = "https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/{version}/protoc-gen-grpc-java-{version}-linux-x86_64.exe".format(
+            version = grpc_java_plugin_version.version,
+        ),
+        sha256 = grpc_java_plugin_version.sha256,
+        executable = True,
+    )
 
 rules_kotlin_jvm_dependencies = module_extension(
     implementation = _rules_kotlin_jvm_dependencies_impl,
     tag_classes = {
-        "grpc_java_version": _archive_version,
+        "grpc_java_plugin_version": _FileVersion,
     },
 )
