@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_binary")
 load("@rules_kotlin//kotlin:core.bzl", "kt_kotlinc_options")
 
 package(default_visibility = ["//visibility:public"])
@@ -11,4 +12,10 @@ kt_kotlinc_options(
     name = "proto_gen_kt_options",
     include_stdlibs = "none",
     warn = "off",
+)
+
+java_binary(
+    name = "KotlinGrpcGenerator",
+    main_class = "io.grpc.kotlin.generator.GeneratorRunner",
+    runtime_deps = ["//imports/io/gprc:protoc_gen_grpc_kotlin_jdk8"],
 )
