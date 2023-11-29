@@ -58,6 +58,8 @@ maven.install(
         "io.grpc:grpc-kotlin-stub:" + GRPC_KOTLIN_VERSION,
         "com.google.protobuf:protobuf-kotlin:3.21.12",
     ],
+    fetch_sources = True,
+    strict_visibility = True,
 )
 use_repo(maven, MAVEN_REPO_NAME)
 

@@ -18,15 +18,16 @@ load(
 )
 
 _STDLIBS = [
-    "@wfa_rules_kotlin_jvm//imports/kotlin:stdlib",
-    "@wfa_rules_kotlin_jvm//imports/kotlin/reflect",
+    Label("//imports/kotlin:stdlib"),
+    Label("//imports/kotlin:stdlib_common"),
+    Label("//imports/kotlin/reflect"),
 ]
 
 def kt_jvm_library(
         name,
         deps = None,
         exports = None,
-        kotlinc_opts = "@wfa_rules_kotlin_jvm//kotlin:default_opts",
+        kotlinc_opts = Label("//kotlin:default_opts"),
         **kwargs):
     deps = deps or []
     exports = exports or []
