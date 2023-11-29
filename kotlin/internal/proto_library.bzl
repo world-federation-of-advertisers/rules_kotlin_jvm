@@ -254,10 +254,12 @@ _kt_jvm_proto_library_helper = rule(
 )
 
 _KT_JVM_PROTO_DEPS = [
-    Label("//imports/com/google/protobuf:kotlin"),
+    Label("//imports/com/google/protobuf/kotlin"),
 ]
 _KT_JVM_GRPC_DEPS = [
+    Label("//imports/io/gprc:api"),
     Label("//imports/io/gprc/protobuf"),
+    Label("//imports/io/gprc/stub"),
     Label("//imports/io/gprc/kotlin:stub"),
 ]
 

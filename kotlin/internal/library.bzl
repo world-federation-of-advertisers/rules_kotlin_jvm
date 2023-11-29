@@ -21,7 +21,6 @@ load(
 
 _STDLIBS = [
     Label("//imports/kotlin:stdlib"),
-    Label("//imports/kotlin:stdlib_common"),
     Label("//imports/kotlin/reflect"),
 ]
 
