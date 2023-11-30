@@ -317,7 +317,7 @@ def kt_jvm_proto_library(
         **kwargs
     )
 
-def kt_jvm_grpc_proto_library(name, deps, **kwargs):
+def kt_jvm_grpc_proto_library(name, deps = None, **kwargs):
     """Generates and compiles Java and Kotlin APIs for a gRPC proto_library.
 
     For standard attributes, see:
