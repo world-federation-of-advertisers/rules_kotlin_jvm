@@ -15,6 +15,11 @@
 """Rules and macros for Kotlin JVM."""
 
 load(
+    "@rules_kotlin//kotlin:jvm.bzl",
+    _kt_jvm_binary = "kt_jvm_binary",
+    _kt_jvm_test = "kt_jvm_test",
+)
+load(
     "//kotlin/internal:library.bzl",
     _kt_jvm_library = "kt_jvm_library",
 )
@@ -25,5 +30,7 @@ load(
 )
 
 kt_jvm_library = _kt_jvm_library
+kt_jvm_test = _kt_jvm_test
+kt_jvm_binary = _kt_jvm_binary
 kt_jvm_proto_library = _kt_jvm_proto_library
 kt_jvm_grpc_proto_library = _kt_jvm_grpc_proto_library
