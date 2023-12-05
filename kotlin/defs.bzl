@@ -20,12 +20,16 @@ load(
     _kt_jvm_test = "kt_jvm_test",
 )
 load(
+    "//kotlin/internal:grpc_library.bzl",
+    _kt_jvm_grpc_library = "kt_jvm_grpc_library",
+    _kt_jvm_grpc_proto_library = "kt_jvm_grpc_proto_library",
+)
+load(
     "//kotlin/internal:library.bzl",
     _kt_jvm_library = "kt_jvm_library",
 )
 load(
     "//kotlin/internal:proto_library.bzl",
-    _kt_jvm_grpc_proto_library = "kt_jvm_grpc_proto_library",
     _kt_jvm_proto_library = "kt_jvm_proto_library",
 )
 
@@ -33,4 +37,5 @@ kt_jvm_library = _kt_jvm_library
 kt_jvm_test = _kt_jvm_test
 kt_jvm_binary = _kt_jvm_binary
 kt_jvm_proto_library = _kt_jvm_proto_library
+kt_jvm_grpc_library = _kt_jvm_grpc_library
 kt_jvm_grpc_proto_library = _kt_jvm_grpc_proto_library
