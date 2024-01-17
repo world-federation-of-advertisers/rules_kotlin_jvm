@@ -5,7 +5,7 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "core",
     exports = [
-        "@rules_kotlin_jvm_maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core",
-        "@rules_kotlin_jvm_maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
+        "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core",
+        "@maven//:org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm",
     ],
 )

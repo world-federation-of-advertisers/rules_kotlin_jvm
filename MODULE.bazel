@@ -13,8 +13,6 @@ GRPC_KOTLIN_VERSION = "1.4.1"
 
 PROTOBUF_JAVA_VERSION = "3.21.12"  # Compatible with protobuf version.
 
-MAVEN_REPO_NAME = "rules_kotlin_jvm_maven"
-
 bazel_dep(
     name = "bazel_skylib",
     version = "1.5.0",
@@ -43,14 +41,12 @@ bazel_dep(
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.artifact(
-    name = MAVEN_REPO_NAME,
     artifact = "protoc-gen-grpc-kotlin",
     classifier = "jdk8",
     group = "io.grpc",
     version = GRPC_KOTLIN_VERSION,
 )
 maven.install(
-    name = MAVEN_REPO_NAME,
     artifacts = [
         "org.jetbrains.kotlin:kotlin-stdlib:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-stdlib-common:" + KOTLIN_RELEASE_VERSION,
@@ -66,10 +62,10 @@ maven.install(
         "com.google.protobuf:protobuf-kotlin:" + PROTOBUF_JAVA_VERSION,
         "com.google.guava:guava:33.0.0-jre",
     ],
-    fetch_sources = True,
+    fetch_sources = True,  # For IDE integration.
     strict_visibility = True,
 )
-use_repo(maven, MAVEN_REPO_NAME)
+use_repo(maven, "maven")
 
 non_module_deps = use_extension("//:non_module_deps.bzl", "non_module_deps")
 non_module_deps.grpc_java_plugin_version(
