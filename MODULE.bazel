@@ -11,7 +11,7 @@ GRPC_JAVA_VERSION = "1.59.1"
 
 GRPC_KOTLIN_VERSION = "1.4.1"
 
-PROTOBUF_JAVA_VERSION = "3.21.12"  # Compatible with protobuf version.
+PROTOBUF_JAVA_VERSION = "3.23.4"  # Compatible with protobuf version.
 
 bazel_dep(
     name = "bazel_skylib",
@@ -19,7 +19,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_proto",
-    version = "5.3.0-21.7",
+    version = "6.0.0-rc1",
 )
 bazel_dep(
     name = "rules_java",
@@ -35,7 +35,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "protobuf",
-    version = "21.7",
+    version = "23.1",
     repo_name = "com_google_protobuf",
 )
 
