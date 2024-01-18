@@ -2,5 +2,5 @@ package(default_visibility = ["//visibility:public"])
 
 alias(
     name = "test",
-    actual = "@rules_kotlin_jvm_maven//:org_jetbrains_kotlin_kotlin_test",
+    actual = "@maven//:org_jetbrains_kotlin_kotlin_test",
 )
