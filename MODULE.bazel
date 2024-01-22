@@ -23,7 +23,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_java",
-    version = "6.5.2",
+    version = "7.3.2",
 )
 bazel_dep(
     name = "rules_kotlin",
@@ -31,7 +31,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_jvm_external",
-    version = "5.3",
+    version = "6.0",
 )
 bazel_dep(
     name = "protobuf",
@@ -46,12 +46,17 @@ maven.artifact(
     group = "io.grpc",
     version = GRPC_KOTLIN_VERSION,
 )
+maven.artifact(
+    testonly = True,
+    artifact = "kotlin-test",
+    group = "org.jetbrains.kotlin",
+    version = KOTLIN_RELEASE_VERSION,
+)
 maven.install(
     artifacts = [
         "org.jetbrains.kotlin:kotlin-stdlib:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-stdlib-common:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlin:kotlin-reflect:" + KOTLIN_RELEASE_VERSION,
-        "org.jetbrains.kotlin:kotlin-test:" + KOTLIN_RELEASE_VERSION,
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:" + KOTLINX_COROUTINES_VERSION,
         "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:" + KOTLINX_COROUTINES_VERSION,
         "io.grpc:grpc-api:" + GRPC_JAVA_VERSION,
