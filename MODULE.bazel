@@ -15,15 +15,15 @@ PROTOBUF_JAVA_VERSION = "3.23.4"  # Compatible with protobuf version.
 
 bazel_dep(
     name = "bazel_skylib",
-    version = "1.5.0",
+    version = "1.7.1",
 )
 bazel_dep(
     name = "rules_proto",
-    version = "6.0.0-rc1",
+    version = "6.0.2",
 )
 bazel_dep(
     name = "rules_java",
-    version = "7.3.2",
+    version = "7.9.1",
 )
 bazel_dep(
     name = "rules_kotlin",
@@ -72,9 +72,13 @@ maven.install(
 )
 use_repo(maven, "maven")
 
-non_module_deps = use_extension("//:non_module_deps.bzl", "non_module_deps")
-non_module_deps.grpc_java_plugin_version(
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+http_file(
+    name = "protoc_gen_grpc_java",
+    executable = True,
     sha256 = "d0345a5508959633f086f42f55782b64913aea890dccaa35ffbf7fe9da0f4463",
-    version = GRPC_JAVA_VERSION,
+    url = "https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/{version}/protoc-gen-grpc-java-{version}-linux-x86_64.exe".format(
+        version = GRPC_JAVA_VERSION,
+    ),
 )
-use_repo(non_module_deps, "protoc_gen_grpc_java")
