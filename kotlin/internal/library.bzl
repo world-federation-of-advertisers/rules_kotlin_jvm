@@ -28,7 +28,6 @@ def kt_jvm_library(
         name,
         deps = None,
         exports = None,
-        kotlinc_opts = Label("//kotlin:default_opts"),
         **kwargs):
     deps = deps or []
     exports = exports or []
@@ -37,6 +36,5 @@ def kt_jvm_library(
         name = name,
         deps = deps + _STDLIBS,
         exports = exports + _STDLIBS,
-        kotlinc_opts = kotlinc_opts,
         **kwargs
     )
