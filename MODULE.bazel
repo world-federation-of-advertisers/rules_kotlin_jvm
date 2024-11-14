@@ -3,7 +3,7 @@ module(
     repo_name = "wfa_rules_kotlin_jvm",
 )
 
-KOTLIN_RELEASE_VERSION = "2.0.0"  # Compatible with rules_kotlin version.
+KOTLIN_RELEASE_VERSION = "1.9.25"  # Compatible with rules_kotlin version.
 
 KOTLINX_COROUTINES_VERSION = "1.8.1"
 
