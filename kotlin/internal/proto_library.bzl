@@ -16,8 +16,8 @@
 Provides kt_jvm_proto_library to generate Kotlin protos.
 """
 
-load("@rules_java//java:defs.bzl", "java_proto_library")
-load("@rules_proto//proto:defs.bzl", "ProtoInfo")
+load("@com_google_protobuf//bazel:java_proto_library.bzl", "java_proto_library")
+load("@com_google_protobuf//bazel/common:proto_info.bzl", "ProtoInfo")
 load(
     "//kotlin/internal:common.bzl",
     "create_srcjar",
