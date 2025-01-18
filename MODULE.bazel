@@ -3,15 +3,15 @@ module(
     repo_name = "wfa_rules_kotlin_jvm",
 )
 
-KOTLIN_RELEASE_VERSION = "1.9.25"  # Compatible with rules_kotlin version.
+KOTLIN_RELEASE_VERSION = "2.1.0"  # Compatible with rules_kotlin version.
 
-KOTLINX_COROUTINES_VERSION = "1.8.1"
+KOTLINX_COROUTINES_VERSION = "1.10.1"
 
-GRPC_JAVA_VERSION = "1.66.0"
+GRPC_JAVA_VERSION = "1.69.0"
 
 GRPC_KOTLIN_VERSION = "1.4.1"
 
-PROTOBUF_JAVA_VERSION = "4.27.5"  # Compatible with protobuf version.
+PROTOBUF_JAVA_VERSION = "4.29.3"  # Compatible with protobuf version.
 
 bazel_dep(
     name = "bazel_skylib",
@@ -19,11 +19,11 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_java",
-    version = "8.6.2",
+    version = "8.7.1",
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "1.9.6",
+    version = "2.1.0",
 )
 bazel_dep(
     name = "rules_jvm_external",
@@ -31,7 +31,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "protobuf",
-    version = "27.3",
+    version = "29.3",
     repo_name = "com_google_protobuf",
 )
 
@@ -50,7 +50,6 @@ maven.artifact(
 maven.install(
     artifacts = [
         "org.jetbrains.kotlin:kotlin-stdlib",
-        "org.jetbrains.kotlin:kotlin-stdlib-common",
         "org.jetbrains.kotlin:kotlin-reflect",
         "org.jetbrains.kotlinx:kotlinx-coroutines-core",
         "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
@@ -84,7 +83,7 @@ http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_
 http_file(
     name = "protoc_gen_grpc_java",
     executable = True,
-    sha256 = "654626545f36b0cda5179e4b46c7bde2a8eefee8d265d346967c8542537137a8",
+    sha256 = "a8a5c7e7602cbaa2a907c2232f533c1d260fdd87fff2eb5dbd79efbccece60e6",
     url = "https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/{version}/protoc-gen-grpc-java-{version}-linux-x86_64.exe".format(
         version = GRPC_JAVA_VERSION,
     ),
