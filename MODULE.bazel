@@ -58,6 +58,7 @@ maven.install(
         "io.grpc:grpc-stub",
         "io.grpc:grpc-kotlin-stub:" + GRPC_KOTLIN_VERSION,
         "com.google.protobuf:protobuf-java",
+        "com.google.protobuf:protobuf-java-util",
         "com.google.protobuf:protobuf-kotlin:" + PROTOBUF_JAVA_VERSION,
     ],
     boms = [
