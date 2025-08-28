@@ -5,7 +5,7 @@ module(
 
 KOTLIN_RELEASE_VERSION = "2.1.21"  # Compatible with rules_kotlin version.
 
-KOTLINX_COROUTINES_VERSION = "1.10.1"
+KOTLINX_COROUTINES_VERSION = "1.10.2"
 
 GRPC_JAVA_VERSION = "1.69.0"
 
@@ -23,7 +23,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.1.8",
+    version = "2.1.9",
 )
 bazel_dep(
     name = "rules_jvm_external",
