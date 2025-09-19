@@ -7,9 +7,9 @@ KOTLIN_RELEASE_VERSION = "2.1.21"  # Compatible with rules_kotlin version.
 
 KOTLINX_COROUTINES_VERSION = "1.10.2"
 
-GRPC_JAVA_VERSION = "1.69.0"
+GRPC_JAVA_VERSION = "1.75.0"
 
-GRPC_KOTLIN_VERSION = "1.4.1"
+GRPC_KOTLIN_VERSION = "1.5.0"
 
 PROTOBUF_JAVA_VERSION = "4.29.3"  # Compatible with protobuf version.
 
@@ -19,7 +19,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_java",
-    version = "8.7.1",
+    version = "8.15.2",
 )
 bazel_dep(
     name = "rules_kotlin",
@@ -73,6 +73,10 @@ maven.install(
     ],
     fail_if_repin_required = True,
     fetch_sources = True,  # For IDE integration.
+    known_contributing_modules = [
+        "bazel_worker_java",
+        "rules_kotlin_jvm",
+    ],
     lock_file = "//:maven_install.json",
     resolver = "maven",
     strict_visibility = True,
