@@ -7,9 +7,9 @@ KOTLIN_RELEASE_VERSION = "2.1.21"  # Compatible with rules_kotlin version.
 
 KOTLINX_COROUTINES_VERSION = "1.10.2"
 
-GRPC_JAVA_VERSION = "1.69.0"
+GRPC_JAVA_VERSION = "1.75.0"
 
-GRPC_KOTLIN_VERSION = "1.4.1"
+GRPC_KOTLIN_VERSION = "1.5.0"
 
 PROTOBUF_JAVA_VERSION = "4.29.3"  # Compatible with protobuf version.
 
@@ -19,7 +19,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_java",
-    version = "8.7.1",
+    version = "8.15.2",
 )
 bazel_dep(
     name = "rules_kotlin",
@@ -73,6 +73,10 @@ maven.install(
     ],
     fail_if_repin_required = True,
     fetch_sources = True,  # For IDE integration.
+    known_contributing_modules = [
+        "bazel_worker_java",
+        "rules_kotlin_jvm",
+    ],
     lock_file = "//:maven_install.json",
     resolver = "maven",
     strict_visibility = True,
@@ -84,7 +88,7 @@ http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_
 http_file(
     name = "protoc_gen_grpc_java",
     executable = True,
-    sha256 = "a8a5c7e7602cbaa2a907c2232f533c1d260fdd87fff2eb5dbd79efbccece60e6",
+    sha256 = "59366fb58a19efd4e3674c1568e94ef167816151acfaad02fa4ef04bbcab293d",
     url = "https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/{version}/protoc-gen-grpc-java-{version}-linux-x86_64.exe".format(
         version = GRPC_JAVA_VERSION,
     ),
