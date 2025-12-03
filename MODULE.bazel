@@ -23,11 +23,11 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.1.9",
+    version = "2.1.10",
 )
 bazel_dep(
     name = "rules_jvm_external",
-    version = "6.8",
+    version = "6.9",
 )
 bazel_dep(
     name = "protobuf",
@@ -57,8 +57,9 @@ maven.install(
         "io.grpc:grpc-protobuf",
         "io.grpc:grpc-stub",
         "io.grpc:grpc-kotlin-stub:" + GRPC_KOTLIN_VERSION,
-        "com.google.protobuf:protobuf-java",
-        "com.google.protobuf:protobuf-java-util",
+        # TODO(bazelbuild/bazel-worker-api/issues#14): Remove versions when fixed.
+        "com.google.protobuf:protobuf-java:" + PROTOBUF_JAVA_VERSION,
+        "com.google.protobuf:protobuf-java-util:" + PROTOBUF_JAVA_VERSION,
         "com.google.protobuf:protobuf-kotlin:" + PROTOBUF_JAVA_VERSION,
     ],
     boms = [
