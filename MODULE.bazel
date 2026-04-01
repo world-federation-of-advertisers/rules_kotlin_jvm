@@ -11,11 +11,11 @@ GRPC_JAVA_VERSION = "1.77.0"
 
 GRPC_KOTLIN_VERSION = "1.5.0"
 
-PROTOBUF_JAVA_VERSION = "4.33.1"  # Compatible with protobuf version.
+PROTOBUF_JAVA_VERSION = "4.34.1"  # Compatible with protobuf version.
 
 bazel_dep(
     name = "bazel_skylib",
-    version = "1.8.1",
+    version = "1.9.0",
 )
 bazel_dep(
     name = "rules_java",
@@ -23,7 +23,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.1.10",
+    version = "2.2.2",
 )
 bazel_dep(
     name = "rules_jvm_external",
@@ -31,7 +31,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "protobuf",
-    version = "33.1",
+    version = "34.1",
     repo_name = "com_google_protobuf",
 )
 
@@ -76,6 +76,7 @@ maven.install(
     fetch_sources = True,  # For IDE integration.
     known_contributing_modules = [
         "bazel_worker_java",
+        "protobuf",
         "rules_kotlin_jvm",
     ],
     lock_file = "//:maven_install.json",
