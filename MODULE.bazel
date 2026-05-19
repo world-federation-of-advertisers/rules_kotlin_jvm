@@ -5,7 +5,7 @@ module(
 
 KOTLIN_RELEASE_VERSION = "2.2.21"  # Compatible with rules_kotlin version.
 
-KOTLINX_COROUTINES_VERSION = "1.10.2"
+KOTLINX_COROUTINES_VERSION = "1.11.0"
 
 GRPC_JAVA_VERSION = "1.77.0"
 
