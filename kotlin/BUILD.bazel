@@ -10,6 +10,8 @@ kt_kotlinc_options(
 
 define_kt_toolchain(
     name = "kotlin_toolchain",
+    api_version = "2.2",
     jvm_target = "11",
     kotlinc_options = ":default_opts",
+    language_version = "2.2",
 )
