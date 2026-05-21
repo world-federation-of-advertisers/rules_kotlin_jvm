@@ -3,9 +3,9 @@ module(
     repo_name = "wfa_rules_kotlin_jvm",
 )
 
-KOTLIN_RELEASE_VERSION = "2.1.21"  # Compatible with rules_kotlin version.
+KOTLIN_RELEASE_VERSION = "2.2.21"  # Compatible with rules_kotlin version.
 
-KOTLINX_COROUTINES_VERSION = "1.10.2"
+KOTLINX_COROUTINES_VERSION = "1.11.0"
 
 GRPC_JAVA_VERSION = "1.77.0"
 
@@ -23,7 +23,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.1.10",
+    version = "2.2.2",
 )
 bazel_dep(
     name = "rules_jvm_external",
