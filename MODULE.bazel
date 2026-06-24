@@ -27,7 +27,11 @@ bazel_dep(
 )
 bazel_dep(
     name = "rules_jvm_external",
-    version = "6.8",
+    version = "7.0",
+)
+bazel_dep(
+    name = "rules_shell",
+    version = "0.8.0",
 )
 bazel_dep(
     name = "protobuf",
