@@ -15,6 +15,7 @@
 """Rules/macros for gRPC libraries."""
 
 load("@rules_java//java:defs.bzl", "java_library")
+load("@com_google_protobuf//bazel/common:proto_info.bzl", "ProtoInfo")
 load("//kotlin/internal:common.bzl", "create_srcjar", "get_real_short_path")
 load("//kotlin/internal:library.bzl", "kt_jvm_library")
 load("//kotlin/internal:proto_library.bzl", "kt_jvm_proto_library")
