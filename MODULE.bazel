@@ -76,6 +76,7 @@ maven.install(
     fetch_sources = True,  # For IDE integration.
     known_contributing_modules = [
         "bazel_worker_java",
+        "protobuf",
         "rules_kotlin_jvm",
     ],
     lock_file = "//:maven_install.json",
