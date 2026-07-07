@@ -7,23 +7,23 @@ KOTLIN_RELEASE_VERSION = "2.2.21"  # Compatible with rules_kotlin version.
 
 KOTLINX_COROUTINES_VERSION = "1.11.0"
 
-GRPC_JAVA_VERSION = "1.77.0"
+GRPC_JAVA_VERSION = "1.82.0"
 
 GRPC_KOTLIN_VERSION = "1.5.0"
 
-PROTOBUF_JAVA_VERSION = "4.33.1"  # Compatible with protobuf version.
+PROTOBUF_JAVA_VERSION = "4.35.1"  # Compatible with protobuf version.
 
 bazel_dep(
     name = "bazel_skylib",
-    version = "1.8.1",
+    version = "1.9.0",
 )
 bazel_dep(
     name = "rules_java",
-    version = "8.15.2",
+    version = "9.6.1",
 )
 bazel_dep(
     name = "rules_kotlin",
-    version = "2.2.2",
+    version = "2.4.0",
 )
 bazel_dep(
     name = "rules_jvm_external",
@@ -31,7 +31,7 @@ bazel_dep(
 )
 bazel_dep(
     name = "protobuf",
-    version = "33.1",
+    version = "35.1",
     repo_name = "com_google_protobuf",
 )
 
@@ -43,7 +43,6 @@ maven.artifact(
     version = GRPC_KOTLIN_VERSION,
 )
 maven.artifact(
-    testonly = True,
     artifact = "kotlin-test",
     group = "org.jetbrains.kotlin",
 )
@@ -75,9 +74,14 @@ maven.install(
     fail_if_repin_required = True,
     fetch_sources = True,  # For IDE integration.
     known_contributing_modules = [
-        "bazel_worker_java",
+        "any-sketch-java",
+        "common-jvm",
+        "consent-signaling-client",
+        "cross-media-measurement-system",
         "protobuf",
         "rules_kotlin_jvm",
+        "virtual-people-common",
+        "virtual-people-core-serving",
     ],
     lock_file = "//:maven_install.json",
     resolver = "maven",
@@ -90,7 +94,7 @@ http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_
 http_file(
     name = "protoc_gen_grpc_java",
     executable = True,
-    sha256 = "6fe1f72e59f197409beff4cda25c9acbf9e82ab7b1cfb20c185bc2e61956c28e",
+    sha256 = "e56807506cb46bb040c4cab7d2808dd2168169b25345252625b02fc6c47f316d",
     url = "https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-java/{version}/protoc-gen-grpc-java-{version}-linux-x86_64.exe".format(
         version = GRPC_JAVA_VERSION,
     ),
