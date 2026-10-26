@@ -14,4 +14,6 @@ define_kt_toolchain(
     jvm_target = "11",
     kotlinc_options = ":default_opts",
     language_version = "2.2",
+    experimental_strict_kotlin_deps = "warn",
+    experimental_report_unused_deps = "warn",    
 )
